@@ -9,7 +9,7 @@ const app: Application = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: ['http://localhost:3000','http://localhost:3001'], credentials: true }))
+app.use(cors({ origin: ['http://localhost:3000','http://localhost:3001','https://personal-portfolio-portfoliodashboard.vercel.app','https://amdadulhq.vercel.app'], credentials: true }))
 
 
 app.use(cookeParser());
