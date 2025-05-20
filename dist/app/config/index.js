@@ -24,16 +24,6 @@ exports.default = {
     reset_password_link: process.env.RESET_PASSWORD_LINK,
     email: process.env.EMAIL,
     app_password: process.env.APP_PASSWORD,
-    ssl: {
-        storeId: process.env.STORE_ID,
-        storePass: process.env.STORE_PASS,
-        successUrl: process.env.PAYMENT_SUCCESS_URL,
-        cancelUrl: process.env.PAYMENT_CANCEL_URL,
-        failUrl: process.env.PAYMENT_FAILD_URL,
-        sslPaymentApi: process.env.SSL_PAYMENT_API,
-        sslValidationApi: process.env.SSL_VALIDATION_API,
-        sslverifyUrl: process.env.SSL_PAYMENT_VERIFY_URL
-    },
     email_pass: process.env.EMAIL_PASS,
     email_user: process.env.EMAIL_USER,
     owner_email: process.env.OWNER_EMAIL,
