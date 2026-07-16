@@ -24,4 +24,9 @@ export default {
   email_pass: process.env.EMAIL_PASS!,
   email_user: process.env.EMAIL_USER!,
   owner_email: process.env.OWNER_EMAIL,
+  // AI chat assistant (Google Gemini — free tier)
+  gemini_api_key: process.env.GEMINI_API_KEY,
+  gemini_model: process.env.GEMINI_MODEL || 'gemini-2.0-flash',
+  telegram_bot_token: process.env.TELEGRAM_BOT_TOKEN,
+  telegram_chat_id: process.env.TELEGRAM_CHAT_ID,
 };

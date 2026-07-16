@@ -106,4 +106,15 @@ enum UserRole {
   ADMIN
 }
 
+// Single-row configuration for the portfolio AI chat assistant.
+model AiSetting {
+  id        String   @id @default(uuid())
+  context   String   @default("")
+  persona   String   @default("")
+  greeting  String   @default("Hi! I'm Amdadul's AI assistant. Ask me anything about his skills, projects, or experience — or say 'contact' to reach him directly.")
+  isEnabled Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 
