@@ -41,7 +41,7 @@ const getSkills = catchAsync(async (req, res) => {
 });
 
 const getSkillsDetails = catchAsync(async(req,res) => {
-  const {id} = req.params
+  const id = req.params.id as string
   const result = await SkillsService.getSkillsDetails(id)
   sendResponse(res, {
     success: true,
@@ -52,7 +52,7 @@ const getSkillsDetails = catchAsync(async(req,res) => {
 })
 
 const updateSkill= catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   const file = req.file;
   const userId = req.user.id;
 
@@ -72,7 +72,7 @@ const updateSkill= catchAsync(async (req, res) => {
 });
 
 const deleteSkill = catchAsync(async(req,res) => {
- const { id } = req.params;
+ const id = req.params.id as string;
   
   const result = await SkillsService.deleteSkillFromDB(id);
   if(result){

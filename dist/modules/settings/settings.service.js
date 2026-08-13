@@ -12,13 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const app_1 = __importDefault(require("./app"));
-const port = Number(process.env.PORT) || 5000;
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const server = app_1.default.listen(port, () => {
-            console.log('Server is running on port', port);
-        });
-    });
-}
-main();
+exports.SettingsService = void 0;
+const prisma_1 = __importDefault(require("../../app/shared/prisma"));
+const getOrCreateSettings = () => __awaiter(void 0, void 0, void 0, function* () {
+    const existing = yield prisma_1.default.siteSettings.findFirst();
+    if (existing)
+        return existing;
+    return prisma_1.default.siteSettings.create({ data: {} });
+});
+const getSettings = () => __awaiter(void 0, void 0, void 0, function* () { return getOrCreateSettings(); });
+const updateSettings = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const s = yield getOrCreateSettings();
+    return prisma_1.default.siteSettings.update({ where: { id: s.id }, data: payload });
+});
+exports.SettingsService = {
+    getSettings,
+    updateSettings,
+};

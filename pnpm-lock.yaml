@@ -17,6 +17,9 @@ importers:
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.3
+      cloudinary:
+        specifier: ^1.41.3
+        version: 1.41.3
       cookie-parser:
         specifier: ^1.4.7
         version: 1.4.7

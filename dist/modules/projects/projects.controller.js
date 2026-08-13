@@ -57,11 +57,11 @@ const getAllProjects = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void
     });
 }));
 const updateProject = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const file = req.file;
     const userId = req.user.id;
-    const blogData = Object.assign(Object.assign({}, req.body), { userId, eventImgUrl: file === null || file === void 0 ? void 0 : file.path });
-    const result = yield projects_service_1.ProjectService.updateProjectInToDB(id, blogData);
+    const projectData = Object.assign(Object.assign({}, req.body), { userId, siteMockup: file === null || file === void 0 ? void 0 : file.path });
+    const result = yield projects_service_1.ProjectService.updateProjectInToDB(id, projectData);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         statusCode: http_status_1.default.OK,
@@ -70,7 +70,7 @@ const updateProject = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 
     });
 }));
 const getProjectDetails = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const result = yield projects_service_1.ProjectService.getProjectDetailsFromDB(id);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -80,7 +80,7 @@ const getProjectDetails = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(v
     });
 }));
 const deleteProject = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const result = yield projects_service_1.ProjectService.deleteProjectFromDB(id);
     if (result) {
         (0, sendResponse_1.sendResponse)(res, {

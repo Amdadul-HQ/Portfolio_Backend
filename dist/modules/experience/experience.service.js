@@ -29,7 +29,9 @@ const getExperienceDetails = (id) => __awaiter(void 0, void 0, void 0, function*
     return result;
 });
 const getAllExperience = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield prisma_1.default.experience.findMany();
+    const result = yield prisma_1.default.experience.findMany({
+        orderBy: { startDate: 'desc' }
+    });
     return result;
 });
 const updateExperience = (id, data) => __awaiter(void 0, void 0, void 0, function* () {

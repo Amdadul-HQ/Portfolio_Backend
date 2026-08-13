@@ -64,7 +64,14 @@ const getAllBlogs = (filters, options) => __awaiter(void 0, void 0, void 0, func
         prisma_1.default.blog.findMany({
             where: whereConditions,
             include: {
-                user: true,
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        email: true,
+                        role: true,
+                    },
+                },
             },
             orderBy: options.sortBy && options.sortOrder
                 ? { [options.sortBy]: options.sortOrder }

@@ -59,7 +59,7 @@ const getAllProjects = catchAsync(async (req, res) => {
 
 
 const updateProject = catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   const file = req.file;
   const userId = req.user.id;
 
@@ -79,7 +79,7 @@ const updateProject = catchAsync(async (req, res) => {
 });
 
 const getProjectDetails = catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   
   const result = await ProjectService.getProjectDetailsFromDB(id);
   sendResponse(res, {
@@ -91,7 +91,7 @@ const getProjectDetails = catchAsync(async (req, res) => {
 });
 
 const deleteProject = catchAsync(async(req,res) => {
- const { id } = req.params;
+ const id = req.params.id as string;
   
   const result = await ProjectService.deleteProjectFromDB(id);
   if(result){

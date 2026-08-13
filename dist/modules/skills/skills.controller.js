@@ -42,7 +42,7 @@ const getSkills = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, v
     });
 }));
 const getSkillsDetails = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const result = yield skills_service_1.SkillsService.getSkillsDetails(id);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -52,10 +52,10 @@ const getSkillsDetails = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(vo
     });
 }));
 const updateSkill = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const file = req.file;
     const userId = req.user.id;
-    const skillData = Object.assign(Object.assign({}, req.body), { userId, eventImgUrl: file === null || file === void 0 ? void 0 : file.path });
+    const skillData = Object.assign(Object.assign({}, req.body), { userId, image: file === null || file === void 0 ? void 0 : file.path });
     const result = yield skills_service_1.SkillsService.updateSkillIntoDB(id, skillData);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -65,7 +65,7 @@ const updateSkill = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0,
     });
 }));
 const deleteSkill = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const result = yield skills_service_1.SkillsService.deleteSkillFromDB(id);
     if (result) {
         (0, sendResponse_1.sendResponse)(res, {

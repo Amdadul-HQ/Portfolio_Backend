@@ -27,7 +27,7 @@ const file = req.file;
 })
 
 const getExperienceDetails = catchAsync(async(req,res) => {
-  const {id} = req.params
+  const id = req.params.id as string
   const result = await ExperienceService.getExperienceDetails(id);
 
   sendResponse(res, {
@@ -49,7 +49,7 @@ const getAllExperience = catchAsync(async(req,res) => {
   });
 })
 const updateExperience = catchAsync(async(req,res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   const file = req.file;
   const userId = req.user.id;
 
@@ -69,7 +69,7 @@ const updateExperience = catchAsync(async(req,res) => {
 })
 
 const deleteExperience = catchAsync(async(req,res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   
   const result = await ExperienceService.deleteExperience(id);
   if(result){
