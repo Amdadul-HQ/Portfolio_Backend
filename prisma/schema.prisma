@@ -73,6 +73,7 @@ model Experience {
   role               String
   companyImage       String
   company            String
+  location           String?
   description        String
   skill              String[]
   startDate          DateTime

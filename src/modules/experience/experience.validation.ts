@@ -8,6 +8,9 @@ const createExperienceZodSchema = z.object({
     company: z.string({
       required_error: 'Company name is required',
     }),
+    location: z.string({
+      required_error: 'Location is required',
+    }),
     description: z.string({
       required_error: 'Description is required',
     }),
@@ -29,6 +32,7 @@ const updateExperienceZodSchema = z.object({
   body: z.object({
     role: z.string().optional(),
     company: z.string().optional(),
+    location: z.string().optional(),
     description: z.string().optional(),
     skill: z.array(z.string()).optional(),
     startDate: z.string().optional(),
