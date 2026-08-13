@@ -94,6 +94,7 @@ model Skill {
 
 
 enum FieldType {
+  PROGRAMMING_LANGUAGE
   FRONTEND
   BACKEND
   DEVOPS
@@ -104,6 +105,14 @@ enum FieldType {
 enum UserRole {
   USER
   ADMIN
+}
+
+// Single-row configuration for site-wide public settings (e.g. the hero "Resume" link).
+model SiteSettings {
+  id         String   @id @default(uuid())
+  resumeLink String   @default("https://drive.google.com/file/d/11s-a26rikQlVfEZs64oLOAEmC2yyxdc6/view?usp=sharing")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 // Single-row configuration for the portfolio AI chat assistant.

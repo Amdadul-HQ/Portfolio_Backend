@@ -5,9 +5,9 @@
   "scripts": {
     "postinstall": "prisma generate",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "npx prisma migrate deploy && npm run seed && ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "deploy": "npm build && vercel && vercel --prod",
+    "deploy": "npm run build && npx prisma migrate deploy && npm run seed && vercel --prod",
     "migrate": "npx prisma migrate dev",
     "migrate:reset": "prisma migrate reset",
     "prisma:val": "npx prisma validate",
@@ -16,7 +16,11 @@
     "prisma:dbprint": "npx prisma db pull --print",
     "prisma:dbpull": "npx prisma db pull",
     "prisma:dbpush": "npx prisma db push",
-    "studio": "npx prisma studio"
+    "studio": "npx prisma studio",
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
