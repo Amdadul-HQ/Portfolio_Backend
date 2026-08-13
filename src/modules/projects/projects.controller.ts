@@ -63,13 +63,13 @@ const updateProject = catchAsync(async (req, res) => {
   const file = req.file;
   const userId = req.user.id;
 
-  const blogData = {
+  const projectData = {
     ...req.body,
     userId,
-    eventImgUrl: file?.path, // set image URL
+    siteMockup: file?.path,
   };
 
-  const result = await ProjectService.updateProjectInToDB(id, blogData);
+  const result = await ProjectService.updateProjectInToDB(id, projectData);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

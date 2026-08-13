@@ -33,6 +33,7 @@ export const createBlogZodSchema = z.object({
 });
 
 const updateblogZodSchema = z.object({
+  body: z.object({
     title: z.string().optional(),
     shortDescription: z.string().optional(),
     description: z.string().optional(),
@@ -42,6 +43,7 @@ const updateblogZodSchema = z.object({
     publishDate: z.string().optional(),
     category: z.string().optional(),
     brand: z.array(z.string()).optional(),
+  }),
 });
 
 

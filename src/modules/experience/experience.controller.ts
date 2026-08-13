@@ -21,7 +21,7 @@ const file = req.file;
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.CREATED,
-    message: 'Blog created successfully',
+    message: 'Experience created successfully',
     data: result,
   });
 })

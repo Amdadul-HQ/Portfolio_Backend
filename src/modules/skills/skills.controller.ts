@@ -59,7 +59,7 @@ const updateSkill= catchAsync(async (req, res) => {
   const skillData = {
     ...req.body,
     userId,
-    eventImgUrl: file?.path, // set image URL
+    image: file?.path,
   };
 
   const result = await SkillsService.updateSkillIntoDB(id, skillData);

@@ -70,7 +70,7 @@ const updateBlog = catchAsync(async (req, res) => {
   const blogData = {
     ...req.body,
     userId,
-    eventImgUrl: file?.path, // set image URL
+    thumbnail: file?.path,
   };
 
   const result = await BlogService.updateBlogIntoDB(id, blogData);

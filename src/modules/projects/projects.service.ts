@@ -60,7 +60,14 @@ Object.entries(filterData).forEach(([key, value]) => {
   const allProjects = await prisma.project.findMany({
     where: whereConditions,
     include: {
-      user: true,
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+        },
+      },
     },
     orderBy:
       options.sortBy && options.sortOrder
