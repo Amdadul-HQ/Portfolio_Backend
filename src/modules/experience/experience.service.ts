@@ -22,7 +22,9 @@ const getExperienceDetails = async(id:string) => {
 }
 
 const getAllExperience = async () => {
-    const result = await prisma.experience.findMany()
+    const result = await prisma.experience.findMany({
+        orderBy: { startDate: 'desc' }
+    })
 
     return result
 }
