@@ -20,6 +20,16 @@ app.get('/', (req: Request, res: Response) => {
   });
 });
 
+// Keep-alive target for an uptime pinger (Render free instances sleep after
+// ~15 min idle). Deliberately touches no database — it must stay cheap enough
+// to hit every few minutes forever.
+app.get('/health', (req: Request, res: Response) => {
+  res.status(httpStatus.OK).json({
+    status: 'ok',
+    uptime: Math.round(process.uptime()),
+  });
+});
+
 app.use('/api', router);
 
 app.use(globalErrorHandler);
