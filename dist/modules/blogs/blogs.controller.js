@@ -59,10 +59,10 @@ const getBlogs = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, vo
     });
 }));
 const updateBlog = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const file = req.file;
     const userId = req.user.id;
-    const blogData = Object.assign(Object.assign({}, req.body), { userId, eventImgUrl: file === null || file === void 0 ? void 0 : file.path });
+    const blogData = Object.assign(Object.assign({}, req.body), { userId, thumbnail: file === null || file === void 0 ? void 0 : file.path });
     const result = yield blogs_service_1.BlogService.updateBlogIntoDB(id, blogData);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -72,7 +72,7 @@ const updateBlog = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, 
     });
 }));
 const getBlogDetails = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const result = yield blogs_service_1.BlogService.getBlogDetailsFromDB(id);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -82,7 +82,7 @@ const getBlogDetails = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void
     });
 }));
 const deleteBlog = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const result = yield blogs_service_1.BlogService.deleteBlogFromDB(id);
     if (result) {
         (0, sendResponse_1.sendResponse)(res, {

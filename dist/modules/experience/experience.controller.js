@@ -28,12 +28,12 @@ const createExperience = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(vo
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
         statusCode: http_status_1.default.CREATED,
-        message: 'Blog created successfully',
+        message: 'Experience created successfully',
         data: result,
     });
 }));
 const getExperienceDetails = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const result = yield experience_service_1.ExperienceService.getExperienceDetails(id);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,
@@ -52,7 +52,7 @@ const getAllExperience = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(vo
     });
 }));
 const updateExperience = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const file = req.file;
     const userId = req.user.id;
     const expData = Object.assign(Object.assign({}, req.body), { userId, companyImage: file === null || file === void 0 ? void 0 : file.path });
@@ -65,7 +65,7 @@ const updateExperience = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(vo
     });
 }));
 const deleteExperience = (0, catchAsync_1.catchAsync)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    const id = req.params.id;
     const result = yield experience_service_1.ExperienceService.deleteExperience(id);
     if (result) {
         (0, sendResponse_1.sendResponse)(res, {

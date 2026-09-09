@@ -10,6 +10,9 @@ const createExperienceZodSchema = zod_1.z.object({
         company: zod_1.z.string({
             required_error: 'Company name is required',
         }),
+        location: zod_1.z.string({
+            required_error: 'Location is required',
+        }),
         description: zod_1.z.string({
             required_error: 'Description is required',
         }),
@@ -30,6 +33,7 @@ const updateExperienceZodSchema = zod_1.z.object({
     body: zod_1.z.object({
         role: zod_1.z.string().optional(),
         company: zod_1.z.string().optional(),
+        location: zod_1.z.string().optional(),
         description: zod_1.z.string().optional(),
         skill: zod_1.z.array(zod_1.z.string()).optional(),
         startDate: zod_1.z.string().optional(),

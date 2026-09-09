@@ -9,6 +9,8 @@ const blogs_routes_1 = require("../../modules/blogs/blogs.routes");
 const projects_routes_1 = require("../../modules/projects/projects.routes");
 const skills_routes_1 = require("../../modules/skills/skills.routes");
 const experience_routes_1 = require("../../modules/experience/experience.routes");
+const ai_routes_1 = require("../../modules/ai/ai.routes");
+const settings_routes_1 = require("../../modules/settings/settings.routes");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
@@ -30,6 +32,14 @@ const moduleRoutes = [
     {
         path: "/experience",
         route: experience_routes_1.ExperienceRoutes
+    },
+    {
+        path: "/ai",
+        route: ai_routes_1.AiRoutes
+    },
+    {
+        path: "/settings",
+        route: settings_routes_1.SettingsRoutes
     }
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

@@ -55,7 +55,14 @@ const getAllBlogs = async (
     prisma.blog.findMany({
       where: whereConditions,
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+          },
+        },
       },
       orderBy:
         options.sortBy && options.sortOrder

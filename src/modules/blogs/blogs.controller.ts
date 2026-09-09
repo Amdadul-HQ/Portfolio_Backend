@@ -63,14 +63,14 @@ const getBlogs = catchAsync(async (req, res) => {
 
 
 const updateBlog = catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   const file = req.file;
   const userId = req.user.id;
 
   const blogData = {
     ...req.body,
     userId,
-    eventImgUrl: file?.path, // set image URL
+    thumbnail: file?.path,
   };
 
   const result = await BlogService.updateBlogIntoDB(id, blogData);
@@ -83,7 +83,7 @@ const updateBlog = catchAsync(async (req, res) => {
 });
 
 const getBlogDetails = catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   
   const result = await BlogService.getBlogDetailsFromDB(id);
   sendResponse(res, {
@@ -95,7 +95,7 @@ const getBlogDetails = catchAsync(async (req, res) => {
 });
 
 const deleteBlog = catchAsync(async(req,res) => {
- const { id } = req.params;
+ const id = req.params.id as string;
   
   const result = await BlogService.deleteBlogFromDB(id);
   if(result){
