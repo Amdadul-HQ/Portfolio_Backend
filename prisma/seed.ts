@@ -2,9 +2,9 @@
 // The /auth/create endpoint always creates USER-role accounts, so this is the
 // only way to get an ADMIN account, which the dashboard's middleware requires.
 //
-// Also seeds default portfolio content (skills + work experience, extracted from
-// Amdadul's resume) — but ONLY when those tables are empty, so anything edited
-// later through the dashboard is never overwritten by a re-run.
+// Also seeds default portfolio content. Skills and experience are inserted only
+// for a fresh database, while the curated projects are inserted idempotently so
+// production deployments can add missing work without overwriting dashboard edits.
 import { PrismaClient, FieldType } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
@@ -22,6 +22,189 @@ const PRESENT = new Date('2099-12-31');
 // month correct in every viewer timezone (a 1st-of-month UTC date renders as the
 // previous month for visitors west of UTC).
 const month = (ym: string) => new Date(`${ym}-15`);
+
+const portfolioSiteUrl = (process.env.PORTFOLIO_SITE_URL || 'https://amdad-dev.vercel.app').replace(/\/$/, '');
+const projectImage = (fileName: string) => `${portfolioSiteUrl}/projects/${fileName}`;
+
+const PROJECTS = [
+  {
+    name: 'LeadPylot CRM',
+    description:
+      'A multi-tenant CRM for financial-services teams, covering lead intake, advanced filtering and grouping, sales pipelines, internal communication, document generation, tasks, and real-time operations.',
+    type: 'Web Application',
+    liveLink: 'https://test.leadpylot.com/sign-in',
+    gitHubLink: 'https://test.leadpylot.com/sign-in',
+    siteMockup: projectImage('leadpylot-crm.jpg'),
+    projectStartDate: month('2025-08'),
+    projectEndDate: month('2026-09'),
+    elements: 0,
+    totalCode: 0,
+    isFeatured: true,
+    features: [
+      'Multi-tenant lead management with advanced domain filters and grouping',
+      'Offer-to-payment workflow with fillable PDF mapping and generation',
+      'Role-based access control with Redis-cached permissions',
+      'Real-time notifications, email, Kanban, and team collaboration',
+      'AI-assisted lead summaries plus spreadsheet import and export',
+    ],
+    services: ['Product engineering', 'Frontend development', 'Backend architecture', 'Real-time systems'],
+    techonology: ['Next.js', 'TypeScript', 'Node.js', 'MongoDB', 'Redis', 'Socket.IO'],
+  },
+  {
+    name: 'MyPick Dynamic Storefront',
+    description:
+      'A custom, CMS-driven e-commerce storefront where page layouts, content, catalog experiences, and customer journeys are assembled from configurable data and reusable dynamic components.',
+    type: 'Web Application',
+    liveLink: 'https://demo-web.mypick.dev/us-en',
+    gitHubLink: 'https://demo-web.mypick.dev/us-en',
+    siteMockup: projectImage('mypick-storefront.jpg'),
+    projectStartDate: month('2026-01'),
+    projectEndDate: month('2026-09'),
+    elements: 0,
+    totalCode: 0,
+    isFeatured: true,
+    features: [
+      'Fully dynamic page layouts and reusable CMS content blocks',
+      'Product and order synchronisation with Shopify and WooCommerce',
+      'AI translation and image recognition for product workflows',
+      'Shipping, fulfilment, tracking, catalog, and checkout experiences',
+    ],
+    services: ['E-commerce engineering', 'CMS architecture', 'API integrations', 'Performance optimisation'],
+    techonology: ['Next.js', 'TypeScript', 'Node.js', 'Redis', 'AWS Rekognition', 'Shopify API'],
+  },
+  {
+    name: 'Nalshe — Social Blogging Platform',
+    description:
+      'A multilingual social publishing platform where readers discover stories, follow writers, join discussions, and interact with a community-led content feed.',
+    type: 'Web Application',
+    liveLink: 'https://nalshe.com/',
+    gitHubLink: 'https://nalshe.com/',
+    siteMockup: projectImage('nalshe.jpg'),
+    projectStartDate: month('2024-03'),
+    projectEndDate: month('2025-04'),
+    elements: 0,
+    totalCode: 0,
+    isFeatured: true,
+    features: [
+      'Story publishing and content discovery',
+      'Community discussions, comments, reactions, and ratings',
+      'Writer profiles, following, and ranked contributor discovery',
+      'Search, feed filters, language switching, and light/dark themes',
+    ],
+    services: ['Web application development', 'Responsive UI', 'Social product experience'],
+    techonology: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+  },
+  {
+    name: 'SimFree Global eSIM',
+    description:
+      'A global eSIM product for finding, purchasing, and activating mobile data plans across 200+ countries, delivered through a responsive web experience and companion iOS and Android apps.',
+    type: 'Mobile App',
+    liveLink: 'https://simfree.io/en',
+    gitHubLink: 'https://simfree.io/en',
+    siteMockup: projectImage('simfree.jpg'),
+    projectStartDate: month('2024-03'),
+    projectEndDate: month('2025-04'),
+    elements: 0,
+    totalCode: 0,
+    isFeatured: false,
+    features: [
+      'Country-based eSIM plan discovery and comparison',
+      'Digital purchase and guided activation journey',
+      'Multi-language and international market experience',
+      'Consistent product experience across web, iOS, and Android',
+    ],
+    services: ['Web development', 'Mobile product integration', 'Responsive experience'],
+    techonology: ['Next.js', 'React', 'TypeScript', 'REST APIs'],
+  },
+  {
+    name: 'MyPick Partner Portal',
+    description:
+      'A seller operations portal for managing products, inventory, orders, earnings, and real-time marketplace analytics within the wider MyPick commerce ecosystem.',
+    type: 'Web Application',
+    liveLink: 'https://demo-partner.mypick.dev/en/sign-in?returnTo=%2Fus-en',
+    gitHubLink: 'https://demo-partner.mypick.dev/en/sign-in?returnTo=%2Fus-en',
+    siteMockup: projectImage('mypick-partner.jpg'),
+    projectStartDate: month('2026-01'),
+    projectEndDate: month('2026-09'),
+    elements: 0,
+    totalCode: 0,
+    isFeatured: false,
+    features: [
+      'Seller product and inventory management',
+      'Order and fulfilment workflows',
+      'Revenue and marketplace analytics',
+      'Secure seller authentication and account access',
+    ],
+    services: ['Partner platform development', 'Dashboard engineering', 'Commerce integrations'],
+    techonology: ['Next.js', 'TypeScript', 'Node.js', 'Redis'],
+  },
+  {
+    name: 'MyPick Admin CMS',
+    description:
+      'The administration platform behind MyPick, giving internal teams control over dynamic pages, content, catalogs, users, settings, translations, and commerce operations.',
+    type: 'Web Application',
+    liveLink: 'https://demo-admin.mypick.dev/en/sign-in?returnTo=%2Fus-en',
+    gitHubLink: 'https://demo-admin.mypick.dev/en/sign-in?returnTo=%2Fus-en',
+    siteMockup: projectImage('mypick-admin.jpg'),
+    projectStartDate: month('2026-01'),
+    projectEndDate: month('2026-09'),
+    elements: 0,
+    totalCode: 0,
+    isFeatured: false,
+    features: [
+      'Dynamic page layout and CMS configuration',
+      'Catalog, user, order, and operational administration',
+      'Role-based permissions with Redis-cached access checks',
+      'Translation and platform settings management',
+    ],
+    services: ['Admin platform development', 'CMS architecture', 'Role-based access control'],
+    techonology: ['Next.js', 'TypeScript', 'Node.js', 'Redis'],
+  },
+  {
+    name: 'LGC Workforce ERP',
+    description:
+      'An employee operations platform for field teams, combining workforce management with GPS-aware attendance and real-time, location-verified check-in and check-out workflows.',
+    type: 'Web Application',
+    liveLink: 'https://lgcglobalcontractingltd.com/',
+    gitHubLink: 'https://lgcglobalcontractingltd.com/',
+    siteMockup: projectImage('lgc-erp.jpg'),
+    projectStartDate: month('2025-05'),
+    projectEndDate: month('2025-08'),
+    elements: 0,
+    totalCode: 0,
+    isFeatured: false,
+    features: [
+      'Employee profiles, roles, and workforce administration',
+      'Location-verified check-in and check-out',
+      'Real-time attendance and field activity visibility',
+      'Operational records and management reporting',
+    ],
+    services: ['ERP development', 'Backend architecture', 'Real-time features', 'Location services'],
+    techonology: ['React', 'Node.js', 'MongoDB', 'Socket.IO', 'Geolocation'],
+  },
+  {
+    name: 'Thumbnail Boss Portfolio',
+    description:
+      'A fast, polished portfolio experience for a specialist thumbnail designer, built to showcase visual work clearly and turn browsing visitors into qualified client enquiries.',
+    type: 'Website',
+    liveLink: 'https://www.thumbnailboss.com/',
+    gitHubLink: 'https://www.thumbnailboss.com/',
+    siteMockup: projectImage('thumbnail-boss.jpg'),
+    projectStartDate: month('2024-03'),
+    projectEndDate: month('2025-04'),
+    elements: 0,
+    totalCode: 0,
+    isFeatured: false,
+    features: [
+      'Visual-first portfolio and project browsing',
+      'Responsive layouts for desktop and mobile visitors',
+      'Clear service positioning and enquiry paths',
+      'Lightweight, performance-focused interactions',
+    ],
+    services: ['Portfolio development', 'Responsive UI', 'Frontend implementation'],
+    techonology: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
+  },
+];
 
 const SKILLS: { field: FieldType; name: string; image: string }[] = [
   // Languages
@@ -141,6 +324,30 @@ async function main() {
   });
 
   console.log(`ADMIN user ready: ${admin.email} (id: ${admin.id})`);
+
+  let createdProjects = 0;
+  let existingProjects = 0;
+
+  for (const project of PROJECTS) {
+    const existingProject = await prisma.project.findFirst({
+      where: {
+        OR: [{ name: project.name }, { liveLink: project.liveLink }],
+      },
+      select: { id: true },
+    });
+
+    if (existingProject) {
+      existingProjects += 1;
+      continue;
+    }
+
+    await prisma.project.create({
+      data: { ...project, userId: admin.id },
+    });
+    createdProjects += 1;
+  }
+
+  console.log(`Curated projects ready: ${createdProjects} created, ${existingProjects} already present`);
 
   if (!seedContent) {
     console.log('Existing database — skipping default content (set SEED_DEFAULT_CONTENT=true to force)');
